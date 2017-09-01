@@ -1,0 +1,22 @@
+
+#fh5co-offcanvass .fh5co-logo {
+  margin-bottom: 40px;
+}
+
+ #fh5co-board {
+   height: 70vh;  
+  z-index: 100; 
+} 
+
+#loading {
+    display: none;
+    text-align: center;
+}
+.background {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+   height: 100vh; 
+  z-index: 0;
+}  

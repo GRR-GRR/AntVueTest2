@@ -14,8 +14,18 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "animate.css": "^3.5.2",
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1",
+    "jquery-bridget": "^2.0.1",
+    "jquery.easing": "^1.4.1",
+    "magnific-popup": "^1.1.0",
+    "modernizr": "^3.5.0",
+    "particlesjs": "^2.0.2",
+    "salvattore": "^1.0.9",
     "vue": "^2.4.2",
-    "vue-router": "^2.7.0"
+    "vue-router": "^2.7.0",
+    "waypoint": "^0.2.8"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
