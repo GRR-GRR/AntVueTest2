@@ -3,14 +3,11 @@
 		<div class="container">
 			<div class="row">
 				<div id="fh5co-board" class="grid" data-columns>
-					<!-- script append here -->
-          {{ msg }}
+          		{{ msg }}
 				</div>
 			</div>
        </div>
 	</div>
-
-	<!-- <p id="loading"><img src="images/loading.gif" alt="Loading…" /></p> -->
 </template>
 
 <script>
