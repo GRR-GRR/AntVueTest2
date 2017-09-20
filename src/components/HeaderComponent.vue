@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <OffCanvasComponent></OffCanvasComponent>
+          <OffCanvasComponent v-on-clickaway="away"></OffCanvasComponent>
           <a class="navbar-brand title_tumblr" href="index.html">Oups ! {{ msg }}</a>
         </div>
       </div>
@@ -13,8 +13,10 @@
 
 <script>
 import OffCanvasComponent from './OffCanvasComponent.vue'
+import { mixin as clickaway } from 'vue-clickaway'
 
 export default {
+  mixins: [ clickaway ],
   components: {
     OffCanvasComponent
   },
@@ -22,6 +24,11 @@ export default {
   data () {
     return {
       msg: 'Ceci est le Header'
+    }
+  },
+  methods: {
+    away: function () {
+      console.log('clicked away')
     }
   },
   computed: {

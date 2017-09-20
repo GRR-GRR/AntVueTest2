@@ -1,9 +1,9 @@
 <template>
   <div>
 
-    <a href="#" class="fh5co-menu-btn js-fh5co-menu-btn" v-on:click="menuShow()" >Menu <i class="icon-menu"></i></a>
+    <a href="#" class="fh5co-menu-btn js-fh5co-menu-btn" v-on:click="menuShowHyde()" >Menu <i class="icon-menu"></i></a>
 
-    <div id="fh5co-offcanvass" v-bind:class="{ 'fh5co-awake': isActive }" v-on-clickaway="menuHide">
+    <div id="fh5co-offcanvass" v-bind:class="{ 'fh5co-awake': isActive }">
       <a href="#" class="fh5co-offcanvass-close js-fh5co-offcanvass-close" v-on:click="menuHide()">Menu <i class="icon-cross"></i></a>
       <h1 class="fh5co-logo title_tumblr"><a class="navbar-brand" href="index.html">Oups !</a></h1>
       {{ msg }}
@@ -29,10 +29,8 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway'
 export default {
   name: 'off-canvas',
-  mixins: [ clickaway ],
   data () {
     return {
       msg: 'ceci est le off canvas',
@@ -40,6 +38,11 @@ export default {
     }
   },
   methods: {
+    menuShowHyde () {
+      if (this.isActive === true) {
+        this.isActive = false
+      } else { this.isActive = true }
+    },
     menuShow () {
       this.isActive = true
     },
