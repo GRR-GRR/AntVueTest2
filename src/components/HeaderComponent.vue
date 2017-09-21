@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <OffCanvasComponent v-on-clickaway="away"></OffCanvasComponent>
+          <OffCanvasComponent v-on-clickaway="away" :retourIsActiveParent='isActive' ></OffCanvasComponent>
           <a class="navbar-brand title_tumblr" href="index.html">Oups ! {{ msg }}</a>
         </div>
       </div>
@@ -23,12 +23,14 @@ export default {
   name: 'header',
   data () {
     return {
-      msg: 'Ceci est le Header'
+      msg: 'Ceci est le Header',
+      isActive: false
     }
   },
   methods: {
     away: function () {
-      console.log('clicked away')
+      this.isActive = false
+      console.log('CLICK AWAY')
     }
   },
   computed: {
