@@ -1,5 +1,5 @@
 <template>
-  <div v-on-clickaway="away">
+  <div v-on-clickaway="menuHide">
 
     <a href="#" class="fh5co-menu-btn js-fh5co-menu-btn" @click='menuShowHyde'>Menu <i class="icon-menu"></i></a>
 
@@ -44,7 +44,7 @@ export default {
     menuShowHyde () {
       if (this.isActive === false) {
         this.isActive = true
-      } else { this.isActive = true }
+      } else { this.isActive = false }
     },
     menuShow () {
       this.isActive = true
@@ -52,10 +52,6 @@ export default {
     },
     menuHide () {
       this.isActive = false
-    },
-    away: function () {
-      this.isActive = false
-      console.log('CLICK AWAY')
     }
   }
 }

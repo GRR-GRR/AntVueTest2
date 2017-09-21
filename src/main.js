@@ -3,6 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+import {VueMasonryPlugin} from 'vue-masonry'
 
 require('../node_modules/animate.css/animate.min.css')
 require('../node_modules/magnific-popup/dist/magnific-popup.css')
@@ -12,6 +15,9 @@ require('./assets/css/style.css')
 require('./assets/css/icomoon.css')
 
 Vue.config.productionTip = false
+Vue.use(VueAxios, axios)
+Vue.use(VueMasonryPlugin)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
