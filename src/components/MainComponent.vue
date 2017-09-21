@@ -2,15 +2,14 @@
 	<div id="fh5co-main">
 		<div class="container">
 			<div class="row">
+
 				<div id="fh5co-board" class="grid" data-columns>
+          <div v-for="(item, index) in objectPost">
+            <PhotoComponent class="item" v-for="(photo, index) in item.photos" :imageLink="photo.original_size.url" :imageUrl="photo.original_size.url" :key="index"></PhotoComponent>
 
-				</div>
-        <div v-masonry transition-duration="0.3s" item-selector=".item">
-            <div v-masonry-tile class="item" v-for="(item, index) in objectPost">
-                <div class="grid-item" v-for="photo in item.photos"><img :src="photo.original_size.url"></div>
-
-            </div>
+          </div>
         </div>
+
 			</div>
        </div>
 	</div>
@@ -18,7 +17,12 @@
 
 <script>
 
+import PhotoComponent from './PhotoComponent.vue'
+
 export default {
+  components: {
+    PhotoComponent
+  },
   name: 'main',
   data () {
     return {

@@ -5,7 +5,6 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import {VueMasonryPlugin} from 'vue-masonry'
 
 require('../node_modules/animate.css/animate.min.css')
 require('../node_modules/magnific-popup/dist/magnific-popup.css')
@@ -16,7 +15,6 @@ require('./assets/css/icomoon.css')
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
-Vue.use(VueMasonryPlugin)
 
 /* eslint-disable no-new */
 new Vue({
@@ -30,7 +28,6 @@ require('../node_modules/jquery/dist/jquery.min.js')
 require('../node_modules/waypoint/dist/waypoint-0.2.8.min.js')
 require('../node_modules/salvattore/dist/salvattore.min.js')
 require('../node_modules/magnific-popup/dist/jquery.magnific-popup.min.js')
-
 /*
 require('./assets/js/Ant-scriptWp.js')
 require('./assets/js/main.js')
