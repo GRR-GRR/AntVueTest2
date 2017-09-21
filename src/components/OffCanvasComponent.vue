@@ -1,13 +1,11 @@
 <template>
-  <div vblur="unfocused()">
+  <div v-on-clickaway="away">
 
-    <a href="#" class="fh5co-menu-btn js-fh5co-menu-btn" @click='menuShow'>Menu <i class="icon-menu"></i></a>
-    {{ retourIsActiveParent }}
+    <a href="#" class="fh5co-menu-btn js-fh5co-menu-btn" @click='menuShowHyde'>Menu <i class="icon-menu"></i></a>
 
-    <div id="fh5co-offcanvass" v-bind:class="{ 'fh5co-awake': retourIsActiveParent }" >
+    <div id="fh5co-offcanvass" v-bind:class="{ 'fh5co-awake': isActive }" >
       <a href="#" class="fh5co-offcanvass-close js-fh5co-offcanvass-close" @click='menuHide'>Menu <i class="icon-cross"></i></a>
       <h1 class="fh5co-logo title_tumblr"><a class="navbar-brand" href="index.html">Oups !</a></h1>
-      {{ retourIsActiveParent }}
       <ul>
         <li class="active"><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
@@ -30,8 +28,11 @@
 </template>
 
 <script>
+import { mixin as clickaway } from 'vue-clickaway'
+
 export default {
   name: 'off-canvas',
+  mixins: [ clickaway ],
   props: ['retourIsActiveParent'],
   data () {
     return {
@@ -41,9 +42,9 @@ export default {
   },
   methods: {
     menuShowHyde () {
-      if (this.retourIsActiveParent === false) {
-        this.retourIsActiveParent = true
-      } else { this.retourIsActiveParent = true }
+      if (this.isActive === false) {
+        this.isActive = true
+      } else { this.isActive = true }
     },
     menuShow () {
       this.isActive = true
@@ -51,15 +52,10 @@ export default {
     },
     menuHide () {
       this.isActive = false
-      console.log('isActive', this.isActive)
     },
-    unfocused () {
-      alert('good bye')
-    }
-  },
-  computed: {
-    test () {
-      return this.isActive
+    away: function () {
+      this.isActive = false
+      console.log('CLICK AWAY')
     }
   }
 }
