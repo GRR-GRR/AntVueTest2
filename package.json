@@ -27,7 +27,6 @@
     "vue": "^2.4.2",
     "vue-axios": "^2.0.2",
     "vue-clickaway": "^2.1.0",
-    "vue-masonry": "^0.10.12",
     "vue-router": "^2.7.0",
     "waypoint": "^0.2.8"
   },

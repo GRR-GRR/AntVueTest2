@@ -7,9 +7,13 @@
 </template>
 
 <script>
+
 export default {
   name: 'photo',
-  props: ['imageUrl', 'imageLink']
+  props: ['imageUrl', 'imageLink'],
+  mounted () {
+    console.log('image componet ok')
+  }
 }
 </script>
 <style scoped>

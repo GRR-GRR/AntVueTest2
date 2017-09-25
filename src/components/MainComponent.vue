@@ -17,7 +17,10 @@
 <script>
 
 import PhotoComponent from './PhotoComponent.vue'
-const salvattore = require('../../node_modules/salvattore/dist/salvattore.min.js')
+
+const salvattore = require('salvattore')
+const $ = require('jquery')
+require('magnific-popup')
 
 export default {
   components: {
@@ -45,6 +48,22 @@ export default {
         this.msg = response.data.response.blog.title
         this.objectPost = response.data.response.posts
         salvattore.recreateColumns(document.getElementById('fh5co-board'))
+        this.popUp()
+      })
+    },
+    popUp () {
+      $('#fh5co-board').magnificPopup({
+        delegate: 'a',
+        /*
+        child items selector, by clicking on it popup will open
+        */
+        type: 'image',
+        gallery: {
+          /*
+          options for gallery
+          */
+          enabled: true
+        }
       })
     }
   },
@@ -54,3 +73,61 @@ export default {
   }
 }
 </script>
+<style>
+/*
+ Spezific styling for salvattore
+ Feel free to edit it as you like
+ More info at http://salvattore.com
+*/
+
+/* Base styles */
+.column {
+    float: left;
+}
+
+@media screen and (max-width: 480px) {
+  .column {
+      float: none;
+      position: relative;
+      clear: both;
+  }
+}
+.size-1of4 {
+    width: 25%;
+}
+.size-1of3 {
+    width: 33.333%;
+}
+.size-1of2 {
+    width: 50%;
+}
+
+#fh5co-board[data-columns]::before {
+    content: '4 .column.size-1of4';
+}
+
+/* Configurate salvattore with media queries */
+@media screen and (max-width: 450px) {
+    #fh5co-board[data-columns]::before {
+        content: '1 .column';
+    }
+}
+
+@media screen and (min-width: 451px) and (max-width: 700px) {
+    #fh5co-board[data-columns]::before {
+        content: '2 .column.size-1of2';
+    }
+}
+
+@media screen and (min-width: 701px) and (max-width: 850px) {
+    #fh5co-board[data-columns]::before {
+        content: '3 .column.size-1of3';
+    }
+}
+
+@media screen and (min-width: 851px) {
+    #fh5co-board[data-columns]::before {
+        content: '4 .column.size-1of4';
+    }
+}
+</style>
