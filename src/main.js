@@ -26,7 +26,6 @@ new Vue({
 
 require('../node_modules/jquery/dist/jquery.min.js')
 require('../node_modules/waypoint/dist/waypoint-0.2.8.min.js')
-require('../node_modules/salvattore/dist/salvattore.min.js')
 require('../node_modules/magnific-popup/dist/jquery.magnific-popup.min.js')
 /*
 require('./assets/js/Ant-scriptWp.js')

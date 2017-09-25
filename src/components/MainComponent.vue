@@ -9,15 +9,15 @@
 
           </div>
         </div>
-
 			</div>
-       </div>
+    </div>
 	</div>
 </template>
 
 <script>
 
 import PhotoComponent from './PhotoComponent.vue'
+const salvattore = require('../../node_modules/salvattore/dist/salvattore.min.js')
 
 export default {
   components: {
@@ -34,6 +34,9 @@ export default {
       objectPost: ''
     }
   },
+  created () {
+    console.log('ready')
+  },
   methods: {
     tumblrGet () {
       this.$http.get('http://api.tumblr.com/v2/blog/grrgrr.tumblr.com/posts/photo?api_key=' + this.client + '&limit=' + this.limit + '&offset=' + this.offset).then((response) => {
@@ -41,10 +44,8 @@ export default {
         this.objectBlog = response.blog
         this.msg = response.data.response.blog.title
         this.objectPost = response.data.response.posts
+        salvattore.recreateColumns(document.getElementById('fh5co-board'))
       })
-    },
-    blocks () {
-      this.tumblrGet()
     }
   },
   mounted () {
