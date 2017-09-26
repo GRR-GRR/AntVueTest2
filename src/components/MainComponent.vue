@@ -4,9 +4,11 @@
 			<div class="row">
 
 				<div id="fh5co-board" class="grid" data-columns>
-          <div v-for="(item, index) in objectPost">
+          <!-- <div v-for="(item, index) in objectPost">
             <PhotoComponent class="item" v-for="(photo, index) in item.photos" :imageLink="photo.original_size.url" :imageUrl="photo.original_size.url" :key="index"></PhotoComponent>
-
+          </div> -->
+          <div class="item" v-for="(photo, index) in flickrPhotoUrl">
+            <PhotoComponent :imageLink="photo" :imageUrl="photo" :key="index"></PhotoComponent>
           </div>
         </div>
 			</div>
@@ -22,6 +24,8 @@ const salvattore = require('salvattore')
 const $ = require('jquery')
 require('magnific-popup')
 
+import Vue from 'vue'
+
 export default {
   components: {
     PhotoComponent
@@ -34,7 +38,11 @@ export default {
       limit: 12,
       offset: 0,
       objectBlog: '',
-      objectPost: ''
+      objectPost: [],
+      selectedSize: 800,
+      flickrPhotoSet: [],
+      flickrPhotoUrl: [],
+      window: $(window)
     }
   },
   created () {
@@ -43,13 +51,50 @@ export default {
   methods: {
     tumblrGet () {
       this.$http.get('http://api.tumblr.com/v2/blog/grrgrr.tumblr.com/posts/photo?api_key=' + this.client + '&limit=' + this.limit + '&offset=' + this.offset).then((response) => {
-        console.log(response.data.response)
+        // console.log(response.data.response)
         this.objectBlog = response.blog
         this.msg = response.data.response.blog.title
-        this.objectPost = response.data.response.posts
-        salvattore.recreateColumns(document.getElementById('fh5co-board'))
+        this.objectPost = this.objectPost.concat(response.data.response.posts)
         this.popUp()
+        Vue.nextTick(function () {
+          salvattore.recreateColumns(document.getElementById('fh5co-board'))
+        })
       })
+    },
+    FlickrGet () {
+      console.log('hello')
+      this.$http.get('https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=75339da571d41004ca62e8a46e0e5798&photoset_id=72157627176334991&user_id=21589489%40N04&media=photos&format=json&nojsoncallback=1').then((photoSet) => {
+        this.flickrPhotoSet = photoSet.data.photoset.photo
+        console.log(photoSet.data.photoset.photo)
+        this.flickrPhotoSet.some(function (photo, i) {
+          if (i < 10) {
+            this.$http.get('https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=75339da571d41004ca62e8a46e0e5798&photo_id=' + photo.id + '&format=json&nojsoncallback=1').then((photoDetails) => {
+              /* console.log(photoDetails.data.sizes.size[11].source) */
+              this.flickrPhotoUrl.push(photoDetails.data.sizes.size[5].source)
+            })
+          }
+          if (i === 10) {
+            Vue.nextTick(function () {
+              console.log(document.getElementById('fh5co-board'))
+              salvattore.recreateColumns(document.getElementById('fh5co-board'))
+            })
+            return true
+          }
+        }.bind(this))
+      })
+    },
+    infiniteScroll () {
+      let self = this
+      console.log(window.innerHeight, window.scrollY, $(document).height())
+        // End of the document reached?
+      if ($(document).height() - window.innerHeight === window.scrollY) {
+        // $('#loading').show();
+        self.offset += self.limit
+        console.log(self.offset)
+        // run ajax call and pass parameter from search
+        self.tumblrGet()
+        // salvattore.recreateColumns(document.getElementById('fh5co-board'))
+      }
     },
     popUp () {
       $('#fh5co-board').magnificPopup({
@@ -69,7 +114,9 @@ export default {
   },
   mounted () {
     console.log('component ok pour le main et api tumblr')
-    this.tumblrGet()
+    this.FlickrGet()
+    // this.tumblrGet()
+    this.window.scroll(this.infiniteScroll)
   }
 }
 </script>
