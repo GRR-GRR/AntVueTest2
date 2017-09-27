@@ -2,14 +2,20 @@
 	<div id="fh5co-main">
 		<div class="container">
 			<div class="row">
-
-				<div id="fh5co-board" class="grid" data-columns>
-          <!-- <div v-for="(item, index) in objectPost">
-            <PhotoComponent class="item" v-for="(photo, index) in item.photos" :imageLink="photo.original_size.url" :imageUrl="photo.original_size.url" :key="index"></PhotoComponent>
-          </div> -->
-          <div class="item" v-for="(photo, index) in flickrPhotoUrl">
-            <PhotoComponent :imageLink="photo" :imageUrl="photo" :key="index"></PhotoComponent>
+        <div v-masonry transition-duration="0.3s" item-selector=".item">
+          <div v-masonry-tile class="item" v-for="(photo, index) in blocks">
+         <!-- block item markup -->
+         {{ blocks }}
+              <!-- <PhotoComponent class="item" v-for="(photo, index) in item.photos" :imageLink="photo.original_size.url" :imageUrl="photo.original_size.url" :key="index"></PhotoComponent> -->
           </div>
+        </div>
+				<div id="fh5co-board" class="grid" data-columns>
+          <div v-for="(item, index) in objectPost">
+            <!-- <PhotoComponent class="item" v-for="(photo, index) in item.photos" :imageLink="photo.original_size.url" :imageUrl="photo.original_size.url" :key="index"></PhotoComponent> -->
+          </div>
+<!--           <div class="item" v-for="(photo, index) in flickrPhotoUrl">
+            <PhotoComponent :imageLink="photo" :imageUrl="photo" :key="index"></PhotoComponent>
+          </div> -->
         </div>
 			</div>
     </div>
@@ -19,10 +25,12 @@
 <script>
 
 import PhotoComponent from './PhotoComponent.vue'
+import {VueMasonryPlugin} from 'vue-masonry'
 
 const salvattore = require('salvattore')
 const $ = require('jquery')
 require('magnific-popup')
+Vue.use(VueMasonryPlugin)
 
 import Vue from 'vue'
 
@@ -42,7 +50,8 @@ export default {
       selectedSize: 800,
       flickrPhotoSet: [],
       flickrPhotoUrl: [],
-      window: $(window)
+      window: $(window),
+      blocks: []
     }
   },
   created () {
@@ -53,6 +62,7 @@ export default {
       this.$http.get('http://api.tumblr.com/v2/blog/grrgrr.tumblr.com/posts/photo?api_key=' + this.client + '&limit=' + this.limit + '&offset=' + this.offset).then((response) => {
         // console.log(response.data.response)
         this.objectBlog = response.blog
+        this.blocks = this.objectPost.concat(response.data.response.posts)
         this.msg = response.data.response.blog.title
         this.objectPost = this.objectPost.concat(response.data.response.posts)
         this.popUp()
@@ -114,8 +124,8 @@ export default {
   },
   mounted () {
     console.log('component ok pour le main et api tumblr')
-    this.FlickrGet()
-    // this.tumblrGet()
+    // this.FlickrGet()
+    this.tumblrGet()
     this.window.scroll(this.infiniteScroll)
   }
 }
