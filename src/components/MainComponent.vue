@@ -1,21 +1,19 @@
 <template>
-	<div id="fh5co-main">
-		<div class="container">
+  <div id="fh5co-main">
+    <div class="container">
 			<div class="row">
-        <div v-masonry transition-duration="0.3s" item-selector=".item">
-          <div v-masonry-tile class="item" v-for="(photo, index) in blocks">
-         <!-- block item markup -->
-         {{ blocks }}
-              <!-- <PhotoComponent class="item" v-for="(photo, index) in item.photos" :imageLink="photo.original_size.url" :imageUrl="photo.original_size.url" :key="index"></PhotoComponent> -->
+        <div id="fh5co-board" class="masonry-container" v-masonry transition-duration="0.3s" item-selector=".item">
+        <div v-for="(item, index) in objectPost">
+          <div v-masonry-tile class="item" v-for="(photo, index) in item.photos" :key="index">
+            <div class="animate-box animate-box bounceIn animated">
+              <a :href="photo.original_size.url">
+                  <PhotoComponent class="image-popup fh5co-board-img" :src="photo.original_size.url" :imageUrl="photo.original_size.url" width="100%"/>
+              </a>
+            </div>
           </div>
         </div>
-				<div id="fh5co-board" class="grid" data-columns>
-          <div v-for="(item, index) in objectPost">
-            <!-- <PhotoComponent class="item" v-for="(photo, index) in item.photos" :imageLink="photo.original_size.url" :imageUrl="photo.original_size.url" :key="index"></PhotoComponent> -->
-          </div>
-<!--           <div class="item" v-for="(photo, index) in flickrPhotoUrl">
-            <PhotoComponent :imageLink="photo" :imageUrl="photo" :key="index"></PhotoComponent>
-          </div> -->
+<!--               <PhotoComponent v-for="(item, index) in objectPost" v-masonry-tile class="item" :imageLink="item.photos[0].original_size.url" :imageUrl="item.photos[0].original_size.url" :key="index"/> -->
+
         </div>
 			</div>
     </div>
@@ -26,13 +24,11 @@
 
 import PhotoComponent from './PhotoComponent.vue'
 import {VueMasonryPlugin} from 'vue-masonry'
+import Vue from 'vue'
 
-const salvattore = require('salvattore')
+Vue.use(VueMasonryPlugin)
 const $ = require('jquery')
 require('magnific-popup')
-Vue.use(VueMasonryPlugin)
-
-import Vue from 'vue'
 
 export default {
   components: {
@@ -51,7 +47,7 @@ export default {
       flickrPhotoSet: [],
       flickrPhotoUrl: [],
       window: $(window),
-      blocks: []
+      blocks: [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
     }
   },
   created () {
@@ -62,37 +58,38 @@ export default {
       this.$http.get('http://api.tumblr.com/v2/blog/grrgrr.tumblr.com/posts/photo?api_key=' + this.client + '&limit=' + this.limit + '&offset=' + this.offset).then((response) => {
         // console.log(response.data.response)
         this.objectBlog = response.blog
-        this.blocks = this.objectPost.concat(response.data.response.posts)
         this.msg = response.data.response.blog.title
-        this.objectPost = this.objectPost.concat(response.data.response.posts)
+        this.objectPost = response.data.response.posts
+        console.log(this.objectPost)
+        // this.blocks = this.objectPost.concat(response.data.response.posts)
         this.popUp()
         Vue.nextTick(function () {
-          salvattore.recreateColumns(document.getElementById('fh5co-board'))
-        })
-      })
-    },
-    FlickrGet () {
-      console.log('hello')
-      this.$http.get('https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=75339da571d41004ca62e8a46e0e5798&photoset_id=72157627176334991&user_id=21589489%40N04&media=photos&format=json&nojsoncallback=1').then((photoSet) => {
-        this.flickrPhotoSet = photoSet.data.photoset.photo
-        console.log(photoSet.data.photoset.photo)
-        this.flickrPhotoSet.some(function (photo, i) {
-          if (i < 10) {
-            this.$http.get('https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=75339da571d41004ca62e8a46e0e5798&photo_id=' + photo.id + '&format=json&nojsoncallback=1').then((photoDetails) => {
-              /* console.log(photoDetails.data.sizes.size[11].source) */
-              this.flickrPhotoUrl.push(photoDetails.data.sizes.size[5].source)
-            })
-          }
-          if (i === 10) {
-            Vue.nextTick(function () {
-              console.log(document.getElementById('fh5co-board'))
-              salvattore.recreateColumns(document.getElementById('fh5co-board'))
-            })
-            return true
-          }
+          this.$redrawVueMasonry()
         }.bind(this))
       })
     },
+    // FlickrGet () {
+    //   console.log('hello')
+    //   this.$http.get('https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=75339da571d41004ca62e8a46e0e5798&photoset_id=72157627176334991&user_id=21589489%40N04&media=photos&format=json&nojsoncallback=1').then((photoSet) => {
+    //     this.flickrPhotoSet = photoSet.data.photoset.photo
+    //     console.log(photoSet.data.photoset.photo)
+    //     this.flickrPhotoSet.some(function (photo, i) {
+    //       if (i < 10) {
+    //         this.$http.get('https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=75339da571d41004ca62e8a46e0e5798&photo_id=' + photo.id + '&format=json&nojsoncallback=1').then((photoDetails) => {
+    //           /* console.log(photoDetails.data.sizes.size[11].source) */
+    //           this.flickrPhotoUrl.push(photoDetails.data.sizes.size[5].source)
+    //         })
+    //       }
+    //       if (i === 10) {
+    //         Vue.nextTick(function () {
+    //           console.log(document.getElementById('fh5co-board'))
+    //           masonry('fh5co-board')
+    //         })
+    //         return true
+    //       }
+    //     }.bind(this))
+    //   })
+    // },
     infiniteScroll () {
       let self = this
       console.log(window.innerHeight, window.scrollY, $(document).height())
@@ -105,6 +102,9 @@ export default {
         self.tumblrGet()
         // salvattore.recreateColumns(document.getElementById('fh5co-board'))
       }
+    },
+    reDraw: function () {
+      this.$redrawVueMasonry()
     },
     popUp () {
       $('#fh5co-board').magnificPopup({
@@ -126,6 +126,10 @@ export default {
     console.log('component ok pour le main et api tumblr')
     // this.FlickrGet()
     this.tumblrGet()
+    if (typeof this.$redrawVueMasonry === 'function') {
+      this.$redrawVueMasonry()
+      console.log('ça passe')
+    }
     this.window.scroll(this.infiniteScroll)
   }
 }
@@ -186,5 +190,12 @@ export default {
     #fh5co-board[data-columns]::before {
         content: '4 .column.size-1of4';
     }
+}
+.item {
+  width: 25%;
+}
+
+.masonry-container {
+    margin: 0 auto;
 }
 </style>
