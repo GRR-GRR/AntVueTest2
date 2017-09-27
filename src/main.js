@@ -23,5 +23,4 @@ new Vue({
   components: { App }
 })
 
-// require('../node_modules/jquery/dist/jquery.min.js')
 require('../node_modules/waypoint/dist/waypoint-0.2.8.min.js')
