@@ -17,6 +17,7 @@
 <script>
 
 import PhotoComponent from './PhotoComponent.vue'
+import Vue from 'vue'
 
 const salvattore = require('salvattore')
 const $ = require('jquery')
@@ -34,7 +35,8 @@ export default {
       limit: 12,
       offset: 0,
       objectBlog: '',
-      objectPost: ''
+      objectPost: [],
+      window: $(window)
     }
   },
   created () {
@@ -46,10 +48,25 @@ export default {
         console.log(response.data.response)
         this.objectBlog = response.blog
         this.msg = response.data.response.blog.title
-        this.objectPost = response.data.response.posts
-        salvattore.recreateColumns(document.getElementById('fh5co-board'))
+        this.objectPost = this.objectPost.concat(response.data.response.posts)
         this.popUp()
+        Vue.nextTick(function () {
+          salvattore.recreateColumns(document.getElementById('fh5co-board'))
+        })
       })
+    },
+    infiniteScroll () {
+      let self = this
+      console.log(window.innerHeight, window.scrollY, $(document).height())
+        // End of the document reached?
+      if ($(document).height() - window.innerHeight === window.scrollY) {
+        // $('#loading').show();
+        self.offset += self.limit
+        console.log(self.offset)
+        // run ajax call and pass parameter from search
+        self.tumblrGet()
+        // salvattore.recreateColumns(document.getElementById('fh5co-board'))
+      }
     },
     popUp () {
       $('#fh5co-board').magnificPopup({
@@ -70,6 +87,7 @@ export default {
   mounted () {
     console.log('component ok pour le main et api tumblr')
     this.tumblrGet()
+    this.window.scroll(this.infiniteScroll)
   }
 }
 </script>

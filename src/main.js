@@ -8,9 +8,6 @@ import VueAxios from 'vue-axios'
 
 require('../node_modules/animate.css/animate.min.css')
 require('../node_modules/magnific-popup/dist/magnific-popup.css')
-/*
-require('./assets/css/salvattore.css')
-*/
 require('./assets/css/custom.css')
 require('./assets/css/style.css')
 require('./assets/css/icomoon.css')
@@ -26,10 +23,5 @@ new Vue({
   components: { App }
 })
 
-require('../node_modules/jquery/dist/jquery.min.js')
+// require('../node_modules/jquery/dist/jquery.min.js')
 require('../node_modules/waypoint/dist/waypoint-0.2.8.min.js')
-/*
-require('../node_modules/magnific-popup/dist/jquery.magnific-popup.min.js')
-require('./assets/js/Ant-scriptWp.js')
-require('./assets/js/main.js')
-*/
