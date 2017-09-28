@@ -31,7 +31,7 @@
 }
 
 /* Configurate salvattore with media queries */
-@media screen and (max-width: 450px) {
+/*@media screen and (max-width: 450px) {
     #fh5co-board[data-columns]::before {
         content: '1 .column';
     }
@@ -52,6 +52,6 @@
 @media screen and (min-width: 851px) {
     #fh5co-board[data-columns]::before {
         content: '4 .column.size-1of4';
-    }
+    }*/
 }
 

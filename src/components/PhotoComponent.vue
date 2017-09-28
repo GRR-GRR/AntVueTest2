@@ -12,7 +12,7 @@ export default {
   name: 'photo',
   props: ['imageUrl', 'imageLink'],
   mounted () {
-    console.log('image componet ok')
+    // console.log('image componet ok')
   }
 }
 </script>
