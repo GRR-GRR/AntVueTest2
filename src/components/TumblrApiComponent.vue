@@ -3,9 +3,7 @@
     <div v-for="(item, index) in objectPost">
       <div v-masonry-tile class="item" v-for="(photo, index) in item.photos" :key="index">
         <div class="animate-box animate-box bounceIn animated">
-          <a :href="photo.original_size.url">
-            <PhotoComponent class="image-popup fh5co-board-img" :src="photo.original_size.url" :imageUrl="photo.original_size.url" width="100%"></PhotoComponent>
-          </a>
+            <PhotoComponent class="image-popup fh5co-board-img" :src="photo.original_size.url" :imageLink="photo.original_size.url" :imageUrl="photo.original_size.url" width="100%"></PhotoComponent>
         </div>
       </div>
     </div>

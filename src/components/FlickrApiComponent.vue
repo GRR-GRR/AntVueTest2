@@ -1,14 +1,11 @@
 <template>
   <div id="fh5co-board" class="masonry-container" v-masonry fit-width="true"transition-duration="0.3s" item-selector=".item">
-    <div v-for="(item, index) in objectPost">
-      <div v-masonry-tile class="item" v-for="(photo, index) in item.photos" :key="index">
+    
+      <div v-masonry-tile class="item" v-for="(photo, index) in flickrPhotoUrl">
         <div class="animate-box animate-box bounceIn animated">
-          <a :href="photo.original_size.url">
-            <PhotoComponent class="image-popup fh5co-board-img" :src="photo.original_size.url" :imageUrl="photo.original_size.url" width="100%"></PhotoComponent>
-          </a>
+          <PhotoComponent class="image-popup fh5co-board-img" :imageLink="photo.size7" :src="photo.size4" :imageUrl="photo.size4" width="100%" :key="index"></PhotoComponent>
         </div>
       </div>
-    </div>
   </div>
 </template>
 
@@ -29,13 +26,8 @@ export default {
   name: 'main',
   data () {
     return {
-      msg: 'ceci est le main',
-      client: 'hTqVY9D2OGTUQOYP7TzJYbXachJOqdyYfMJmI2SdhRdleQQ9qF',
       limit: 12,
       offset: 0,
-      objectBlog: '',
-      objectPost: [],
-      selectedSize: 800,
       flickrPhotoSet: [],
       flickrPhotoUrl: [],
       window: $(window)
@@ -49,21 +41,28 @@ export default {
       console.log('hello')
       this.$http.get('https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=75339da571d41004ca62e8a46e0e5798&photoset_id=72157627176334991&user_id=21589489%40N04&media=photos&format=json&nojsoncallback=1').then((photoSet) => {
         this.flickrPhotoSet = photoSet.data.photoset.photo
-        console.log(photoSet.data.photoset.photo)
+        // console.log(photoSet.data.photoset.photo)
         this.flickrPhotoSet.some(function (photo, i) {
-          if (i < 10) {
+          this.popUp()
+          if (i < this.offset * this.limit) {
+          } else if (i < ((this.offset * this.limit) + this.limit)) {
             this.$http.get('https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=75339da571d41004ca62e8a46e0e5798&photo_id=' + photo.id + '&format=json&nojsoncallback=1').then((photoDetails) => {
-              /* console.log(photoDetails.data.sizes.size[11].source) */
-              this.flickrPhotoUrl.push(photoDetails.data.sizes.size[5].source)
+              // console.log(photoDetails.data.sizes.size)
+              // this.flickrPhotoUrl.push(photoDetails.data.sizes.size[4].source)
+              // this.flickrPhotoUrl.push(photoDetails.data.sizes.size[7].source)
+              this.flickrPhotoUrl.push({
+                size4: photoDetails.data.sizes.size[4].source,
+                size7: photoDetails.data.sizes.size[6].source
+              })
             })
-          }
-          if (i === 10) {
+          } else {
             Vue.nextTick(function () {
               this.$redrawVueMasonry()
             }.bind(this))
             return true
           }
         }.bind(this))
+        console.log(this.flickrPhotoUrl)
       })
     },
 /*    tumblrGet () {
@@ -90,7 +89,6 @@ export default {
         console.log(self.offset)
         // run ajax call and pass parameter from search
         self.flickrGet()
-        // salvattore.recreateColumns(document.getElementById('fh5co-board'))
       }
     },
     reDraw: function () {
@@ -117,18 +115,16 @@ export default {
     this.FlickrGet()
     if (typeof this.$redrawVueMasonry === 'function') {
       this.$redrawVueMasonry()
-      console.log('ça passe')
+      // console.log('ça passe')
     }
     this.window.scroll(this.infiniteScroll)
   }
 }
 </script>
-<style>
-/*
- Spezific styling for salvattore
- Feel free to edit it as you like
- More info at http://salvattore.com
-*/
+<style scoped>
+#fh5co-board {
+    z-index: 0;
+}
 
 /* Base styles */
 .column {
@@ -151,10 +147,10 @@ export default {
 .size-1of2 {
     width: 50%;
 }
-/*
+
 #fh5co-board[data-columns]::before {
     content: '4 .column.size-1of4';
-}*/
+}
 
 
 /* Configurate salvattore with media queries */
@@ -167,7 +163,7 @@ export default {
     }
 }
 
-@media screen and (min-width: 481px) and (max-width: 990px) {
+@media screen and (min-width: 481px) and (max-width: 700px) {
 /*    #fh5co-board[data-columns]::before {
         content: '2 .column.size-1of2';
     }*/
@@ -176,14 +172,14 @@ export default {
     }
 }
 
-/*@media screen and (min-width: 701px) and (max-width: 990px) {
+@media screen and (min-width: 701px) and (max-width: 990px) {
     #fh5co-board[data-columns]::before {
         content: '3 .column.size-1of3';
     }
     .item {
       width: 33.3%;
     }
-}*/
+}
 
 @media screen and (min-width: 991px) {
 

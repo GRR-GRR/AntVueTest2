@@ -3,8 +3,8 @@
     <div class="container">
 			<div class="row">
         <FlickrApiComponent></FlickrApiComponent>
-<!--         <TumblrApiComponent></TumblrApiComponent>
- -->      </div>
+        <!-- <TumblrApiComponent></TumblrApiComponent> -->
+      </div>
     </div>
 	</div>
 </template>
