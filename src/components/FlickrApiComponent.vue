@@ -182,11 +182,9 @@ export default {
 }
 
 @media screen and (min-width: 991px) {
-
     .item {
       width: 21.1%;
     }
-
 }
 
 .masonry-container {
