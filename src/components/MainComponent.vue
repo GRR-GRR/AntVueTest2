@@ -2,20 +2,18 @@
   <div id="fh5co-main">
     <div class="container">
 			<div class="row">
-        <div id="fh5co-board" class="masonry-container" v-masonry transition-duration="0.3s" item-selector=".item">
-        <div v-for="(item, index) in objectPost">
-          <div v-masonry-tile class="item" v-for="(photo, index) in item.photos" :key="index">
-            <div class="animate-box animate-box bounceIn animated">
-              <a :href="photo.original_size.url">
-                  <PhotoComponent class="image-popup fh5co-board-img" :src="photo.original_size.url" :imageUrl="photo.original_size.url" width="100%"/>
-              </a>
+        <div id="fh5co-board" class="masonry-container" v-masonry fit-width="true"transition-duration="0.3s" item-selector=".item">
+          <div v-for="(item, index) in objectPost">
+            <div v-masonry-tile class="item" v-for="(photo, index) in item.photos" :key="index">
+              <div class="animate-box animate-box bounceIn animated">
+                <a :href="photo.original_size.url">
+                  <PhotoComponent class="image-popup fh5co-board-img" :src="photo.original_size.url" :imageUrl="photo.original_size.url" width="100%"></PhotoComponent>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-<!--               <PhotoComponent v-for="(item, index) in objectPost" v-masonry-tile class="item" :imageLink="item.photos[0].original_size.url" :imageUrl="item.photos[0].original_size.url" :key="index"/> -->
-
-        </div>
-			</div>
+  			</div>
+      </div>
     </div>
 	</div>
 </template>
@@ -59,9 +57,9 @@ export default {
         // console.log(response.data.response)
         this.objectBlog = response.blog
         this.msg = response.data.response.blog.title
-        this.objectPost = response.data.response.posts
+        // this.objectPost = response.data.response.posts
         console.log(this.objectPost)
-        // this.blocks = this.objectPost.concat(response.data.response.posts)
+        this.objectPost = this.objectPost.concat(response.data.response.posts)
         this.popUp()
         Vue.nextTick(function () {
           this.$redrawVueMasonry()
@@ -162,37 +160,46 @@ export default {
 .size-1of2 {
     width: 50%;
 }
-
+/*
 #fh5co-board[data-columns]::before {
     content: '4 .column.size-1of4';
-}
+}*/
+
 
 /* Configurate salvattore with media queries */
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 480px) {
     #fh5co-board[data-columns]::before {
         content: '1 .column';
     }
-}
-
-@media screen and (min-width: 451px) and (max-width: 700px) {
-    #fh5co-board[data-columns]::before {
-        content: '2 .column.size-1of2';
+    .item {
+      width: 95%;
     }
 }
 
-@media screen and (min-width: 701px) and (max-width: 850px) {
+@media screen and (min-width: 481px) and (max-width: 990px) {
+/*    #fh5co-board[data-columns]::before {
+        content: '2 .column.size-1of2';
+    }*/
+    .item {
+      width: 47%;
+    }
+}
+
+/*@media screen and (min-width: 701px) and (max-width: 990px) {
     #fh5co-board[data-columns]::before {
         content: '3 .column.size-1of3';
     }
-}
-
-@media screen and (min-width: 851px) {
-    #fh5co-board[data-columns]::before {
-        content: '4 .column.size-1of4';
+    .item {
+      width: 33.3%;
     }
-}
-.item {
-  width: 25%;
+}*/
+
+@media screen and (min-width: 991px) {
+
+    .item {
+      width: 21.1%;
+    }
+
 }
 
 .masonry-container {
