@@ -100,11 +100,9 @@ export default {
 }
 </script>
 <style>
-/*
- Spezific styling for salvattore
- Feel free to edit it as you like
- More info at http://salvattore.com
-*/
+#fh5co-board {
+    z-index: 0;
+}
 
 /* Base styles */
 .column {
@@ -131,7 +129,6 @@ export default {
 #fh5co-board[data-columns]::before {
     content: '4 .column.size-1of4';
 }*/
-
 
 /* Configurate salvattore with media queries */
 @media screen and (max-width: 480px) {

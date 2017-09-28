@@ -1,5 +1,5 @@
 <template>
-  <div id="fh5co-board" class="masonry-container" v-masonry fit-width="true"transition-duration="0.3s" item-selector=".item">
+  <div id="fh5co-board" class="masonry-container" v-masonry fit-width="true" item-selector=".item">
     
       <div v-masonry-tile class="item" v-for="(photo, index) in flickrPhotoUrl">
         <div class="animate-box animate-box bounceIn animated">
@@ -70,7 +70,7 @@ export default {
         self.offset += self.limit
         console.log(self.offset)
         // run ajax call and pass parameter from search
-        self.flickrGet()
+        self.FlickrGet()
       }
     },
     reDraw: function () {

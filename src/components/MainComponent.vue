@@ -2,8 +2,8 @@
   <div id="fh5co-main">
     <div class="container">
 			<div class="row">
-        <FlickrApiComponent></FlickrApiComponent>
-        <!-- <TumblrApiComponent></TumblrApiComponent> -->
+        <FlickrApiComponent v-if="flickrApiLink"/>
+        <TumblrApiComponent v-if="tumblrApiLink"/>
       </div>
     </div>
 	</div>
@@ -19,11 +19,13 @@ export default {
     TumblrApiComponent,
     FlickrApiComponent
   },
-  name: 'main',
   data () {
     return {
+      flickrApiLink: true,
+      tumblrApiLink: false
     }
   },
+  name: 'main',
   created () {
     console.log('ready')
   },
@@ -31,3 +33,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+  #fh5co-main .container {
+    padding-top: 10em;
+  }
+</style>

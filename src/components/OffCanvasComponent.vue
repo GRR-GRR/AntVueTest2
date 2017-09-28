@@ -8,7 +8,7 @@
       <h1 class="fh5co-logo title_tumblr"><a class="navbar-brand" href="index.html">Oups !</a></h1>
       <ul>
         <li class="active"><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
+        <li><a @click="tumblrApiLink">About</a></li>
         <li><a href="photos.html">Mes photos</a></li>
         <li><a href="pricing.html">Pricing</a></li>
         <li><a href="contact.html">Contact</a></li>
