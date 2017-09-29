@@ -96,7 +96,12 @@ export default {
       console.log('ça passe')
     }
     this.window.scroll(this.infiniteScroll)
+  },
+
+  beforeDestroy () {
+
   }
+
 }
 </script>
 <style>

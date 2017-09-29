@@ -2,6 +2,7 @@
   <div id="fh5co-main">
     <div class="container">
 			<div class="row">
+        <button @click='switchApi'>Changer d'api</button>
         <FlickrApiComponent v-if="flickrApiLink"/>
         <TumblrApiComponent v-if="tumblrApiLink"/>
       </div>
@@ -21,8 +22,8 @@ export default {
   },
   data () {
     return {
-      flickrApiLink: true,
-      tumblrApiLink: false
+      flickrApiLink: false,
+      tumblrApiLink: true
     }
   },
   name: 'main',
@@ -30,6 +31,16 @@ export default {
     console.log('ready')
   },
   methods: {
+    switchApi () {
+      if (this.flickrApiLink === true) {
+        this.tumblrApiLink = true
+        this.flickrApiLink = false
+      } else {
+        this.tumblrApiLink = false
+        this.flickrApiLink = true
+      }
+    }
+
   }
 }
 </script>

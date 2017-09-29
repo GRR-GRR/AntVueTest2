@@ -26,11 +26,12 @@ export default {
   name: 'main',
   data () {
     return {
-      limit: 12,
+      limit: 6,
       offset: 0,
       flickrPhotoSet: [],
       flickrPhotoUrl: [],
-      window: $(window)
+      window: $(window),
+      playInfinitScroll: true
     }
   },
   created () {
@@ -52,9 +53,9 @@ export default {
               })
             })
           } else {
-            Vue.nextTick(function () {
-              this.$redrawVueMasonry()
-            }.bind(this))
+            // Vue.nextTick(function () {
+            //   // this.$redrawVueMasonry()
+            // }.bind(this))
             return true
           }
         }.bind(this))
@@ -62,19 +63,22 @@ export default {
       })
     },
     infiniteScroll () {
-      let self = this
-      console.log(window.innerHeight, window.scrollY, $(document).height())
-        // End of the document reached?
-      if ($(document).height() - window.innerHeight === window.scrollY) {
-        // $('#loading').show();
-        self.offset += self.limit
-        console.log(self.offset)
-        // run ajax call and pass parameter from search
-        self.FlickrGet()
+      if (this.playInfinitScroll === true) {
+        let self = this
+        console.log(window.innerHeight, window.scrollY, $(document).height())
+          // End of the document reached?
+        if ($(document).height() - window.innerHeight === window.scrollY) {
+          // $('#loading').show();
+          self.offset += 1
+          console.log(self.offset)
+          // run ajax call and pass parameter from search
+          self.FlickrGet()
+        }
+        this.playInfinitScroll = false
+        setTimeout(function () {
+          this.playInfinitScroll = true
+        }.bind(this), 1000)
       }
-    },
-    reDraw: function () {
-      this.$redrawVueMasonry()
     },
     popUp () {
       $('#fh5co-board').magnificPopup({
